@@ -3,7 +3,7 @@ from src.masks import get_mask_account, get_mask_card_number
 
 def mask_account_card(card_data: str) -> str:
     """
-    Возвращать строку с замаскированным номером.
+    Возвращает строку с замаскированным номером.
     Для карт и счетов используйте разные типы маскировки.
     """
     rend_card_data = card_data.split(" ")
@@ -18,7 +18,7 @@ def mask_account_card(card_data: str) -> str:
 
 
 def get_date(date: str) -> str:
-    """ "Функция для преобразования даты из формата ISO 8601 в формат DD.MM.YYYY"""
+    """ Преобразует даты из формата ISO 8601 в формат DD.MM.YYYY"""
     rend_date = date[:-16].split("-")
     return ".".join(rend_date[::-1])
 
