@@ -19,8 +19,8 @@ def mask_account_card(card_data: str) -> str:
 
 def get_date(date: str) -> str:
     """ Преобразует даты из формата ISO 8601 в формат DD.MM.YYYY"""
-    rend_date = date[:-16].split("-")
-    return ".".join(rend_date[::-1])
+    year, month, day = date.split('T')[0].split('-')
+    return f"{day}.{month}.{year}"
 
 
 if __name__ == "__main__":
