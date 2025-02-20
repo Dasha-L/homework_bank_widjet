@@ -2,7 +2,7 @@ import pytest
 
 
 @pytest.fixture
-def valid_card_numbers():
+def valid_card_numbers() -> list[str]:
     """Валидные входные значения для проверки функции маскировки номера карты"""
     return [
         "1234567890123",  # Номер карты длиной 13 цифр
@@ -16,8 +16,8 @@ def valid_card_numbers():
 
 
 @pytest.fixture
-def expected_mask_numbers():
-    """ Фикстура с ожидаемыми результатами для валидных номеров карты для проверки функции
+def expected_mask_numbers() -> list[str]:
+    """Фикстура с ожидаемыми результатами для валидных номеров карты для проверки функции
     маскировки номера карты"""
     return [
         "1234 56** ****0123",  # Номер карты длиной 13 цифр
@@ -31,7 +31,7 @@ def expected_mask_numbers():
 
 
 @pytest.fixture
-def invalid_card_numbers():
+def invalid_card_numbers() -> list[str]:
     """Невалидные входные значения для проверки функции маскировки номера карты"""
     return [
         "123456789012",  # Номер карты длиной 12 цифр
@@ -54,7 +54,7 @@ def invalid_card_numbers():
 
 
 @pytest.fixture
-def valid_account_numbers():
+def valid_account_numbers() -> list[str]:
     """Валидные входные значения для проверки функции маскировки номера счёта."""
     return [
         "123456",  # Номер счета длиной 6 цифр
@@ -66,7 +66,7 @@ def valid_account_numbers():
 
 
 @pytest.fixture
-def invalid_account_numbers():
+def invalid_account_numbers() -> list[str]:
     """Невалидные входные значения для проверки функции маскировки номера счёта."""
     return [
         "12345",  # Номер счета длиной 5 цифр
@@ -82,7 +82,7 @@ def invalid_account_numbers():
 
 
 @pytest.fixture
-def expected_mask_accounts():
+def expected_mask_accounts() -> list[str]:
     """Фикстура с ожидаемыми результатами для валидных номеров счетов от функции для маскировки счёта."""
     return [
         "**3456",  # Номер счета длиной 6 цифр
@@ -94,34 +94,35 @@ def expected_mask_accounts():
 
 
 @pytest.fixture
-def transactions_with_same_dates():
+def transactions_with_same_dates() -> list[dict]:
     """Фикстура для проверки функции сортировки транзакций по дате с одинаковыми датами"""
     return [
         {"id": 1, "state": "EXECUTED", "date": "2023-01-01T00:00:00.000000"},
         {"id": 2, "state": "CANCELED", "date": "2023-01-01T00:00:00.000000"},
-        {"id": 3, "state": "EXECUTED", "date": "2023-01-01T00:00:00.000000"}
+        {"id": 3, "state": "EXECUTED", "date": "2023-01-01T00:00:00.000000"},
     ]
 
 
 @pytest.fixture
-def transactions_with_invalid_dates():
+def transactions_with_invalid_dates() -> list[dict]:
     """Фикстура для проверки функции сортировки транзакций по датам c нестандартными значениями"""
     return [
         {"id": 1, "state": "EXECUTED", "date": "invalid-date"},
         {"id": 2, "state": "CANCELED", "date": "2023-01-01T00:00:00.000000"},
-        {"id": 3, "state": "EXECUTED", "date": "another-invalid-date"}
+        {"id": 3, "state": "EXECUTED", "date": "another-invalid-date"},
     ]
 
+
 @pytest.fixture
-def invalid_dates():
+def invalid_dates() -> list[str]:
     return [
         "2023-10-05",  # Отсутствует время
         "2023/10/05T12:34:56",  # Неправильный разделитель даты
         "2023-13-01T12:34:56",  # Неправильный месяц
-        "2023-02-30T12:34:56",  # Неправильный день (февраль 30)
+        "2023-12-33T12:34:56",  # Неправильный день
+        "2023-11-31T12:34:56",  # Неправильный день в месяце с 30 днями
+        "2024-02-30T12:34:56",  # Неправильный день в феврале (февраль 30)
         "2023-02-29T12:34:56",  # Невисокосный год (февраль 29)
         "",  # Пустая строка
         "NotADate",  # Строка, не содержащая дату
     ]
-
-

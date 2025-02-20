@@ -1,5 +1,6 @@
 import pytest
-from src.widget import mask_account_card, get_date
+
+from src.widget import get_date, mask_account_card
 
 
 @pytest.mark.parametrize(
@@ -11,10 +12,10 @@ from src.widget import mask_account_card, get_date
         # Наименование карты из двух слов, номер 13 цифр
         ("Счёт 874305", "Счёт **4305"),  # Счёт 6 цифр
         ("Счёт 98765432109876547676", "Счёт **7676"),  # Счёт 20 цифр
-    ]
+    ],
 )
-def test_mask_account_card_valid(acc_card, mask_acc_card_result):
-    """ Параметризованный тесты с разными типами карт и счетов для проверки универсальности функции."""
+def test_mask_account_card_valid(acc_card: str, mask_acc_card_result: str) -> None:
+    """Параметризованный тесты с разными типами карт и счетов для проверки универсальности функции."""
     assert mask_account_card(acc_card) == mask_acc_card_result
 
 
@@ -30,7 +31,7 @@ def test_mask_account_card_valid(acc_card, mask_acc_card_result):
         "Счёт ",  # Пустой номер счета
     ],
 )
-def test_mask_account_card_invalid(invalid_acc_card):
+def test_mask_account_card_invalid(invalid_acc_card: str) -> None:
     """Тестирование функции на обработку некорректных входных данных и проверка ее устойчивости к ошибкам."""
     with pytest.raises(ValueError):
         mask_account_card(invalid_acc_card)
@@ -44,16 +45,16 @@ def test_mask_account_card_invalid(invalid_acc_card):
         ("2100-12-31T23:59:59", "31.12.2100"),  # Граничный случай (конец года)
         ("2000-02-29T12:00:00", "29.02.2000"),  # Високосный год
         ("2025-02-19T00:00:00", "19.02.2025"),  # Текущая дата (на момент написания теста)
-    ]
+    ],
 )
-def test_get_date_valid(input_iso_date, expected_date_result):
+def test_get_date_valid(input_iso_date: str, expected_date_result: str) -> None:
     """Тестирование правильности преобразования даты, включая граничные случаи и нестандартные строки с датами."""
     assert get_date(input_iso_date) == expected_date_result
 
 
-def test_get_date_invalid(invalid_dates):
-    """ Проверка работы функции на различных входных форматах даты,
-        а также, что функция корректно обрабатывает входные строки, где отсутствует дата"""
+def test_get_date_invalid(invalid_dates: list[str]) -> None:
+    """Проверка работы функции на различных входных форматах даты,
+    а также, что функция корректно обрабатывает входные строки, где отсутствует дата"""
     for invalid_date in invalid_dates:
         with pytest.raises(ValueError):
             get_date(invalid_date)

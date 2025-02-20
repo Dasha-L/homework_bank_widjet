@@ -18,7 +18,7 @@ def mask_account_card(card_data: str) -> str:
 
 
 def get_date(date: str) -> str:
-    """ Преобразует даты из формата ISO 8601 в формат DD.MM.YYYY"""
+    """Преобразует даты из формата ISO 8601 в формат DD.MM.YYYY"""
     if not "T" and "-" in date:
         raise ValueError("Некорректный формат даты или времени")
     time_part, date_part = date.split("T")
@@ -37,12 +37,6 @@ def get_date(date: str) -> str:
             if day > 29:
                 raise ValueError("Некорректное количество дней для февраля високосного года")
         elif day > 28:
-            raise ValueError ("Некорректное количество дней для февраля невисокосного года")
+            raise ValueError("Некорректное количество дней для февраля невисокосного года")
 
     return f"{day:02}.{month:02}.{year}"
-
-
-if __name__ == "__main__":
-    print(mask_account_card("Maestro card 1596837868705199"))
-    print(mask_account_card("Счёт 73654108430135874305"))
-    print(get_date("2024-03-11T02:26:18.671407"))
