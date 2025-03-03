@@ -105,7 +105,7 @@ def transactions_with_same_dates() -> list[dict]:
 
 @pytest.fixture
 def transactions_with_invalid_dates() -> list[dict]:
-    """Фикстура для проверки функции сортировки транзакций по датам c нестандартными значениями"""
+    """Фикстура для проверки функции сортировки транзакций по датам с нестандартными значениями"""
     return [
         {"id": 1, "state": "EXECUTED", "date": "invalid-date"},
         {"id": 2, "state": "CANCELED", "date": "2023-01-01T00:00:00.000000"},
@@ -125,4 +125,25 @@ def invalid_dates() -> list[str]:
         "2023-02-29T12:34:56",  # Невисокосный год (февраль 29)
         "",  # Пустая строка
         "NotADate",  # Строка, не содержащая дату
+    ]
+
+
+@pytest.fixture
+def trans_with_valid_descriptions() -> list[list]:
+    return [
+        [{"description": "Перевод организации"}],  # Один элемент
+        [
+            {"description": "Перевод со счета на счет"},  # Несколько элементов
+            {"description": "Перевод с карты на карту"},
+        ],
+        [],  # Пустой список
+    ]
+
+
+@pytest.fixture
+def expected_trans_with_valid_descriptions():
+    return [
+        ["Перевод организации"],  # Один элемент
+        ["Перевод со счета на счет", "Перевод с карты на карту"],  # Несколько элементов
+        [],  # Пустой список
     ]
