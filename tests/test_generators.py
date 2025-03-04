@@ -70,7 +70,7 @@ def test_filter_by_currency(transactions, currency, expected, test_description):
     - правильно обрабатывает случаи, когда транзакции в заданной валюте отсутствуют;
     - не завершается ошибкой при обработке пустого списка или списка без соответствующих валютных операций.
     """
-    result = filter_by_currency(transactions, currency)
+    result = list(filter_by_currency(transactions, currency))
     assert result == expected, f"Ошибка в тесте: {test_description}"
 
 

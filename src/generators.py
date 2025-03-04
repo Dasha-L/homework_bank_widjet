@@ -3,7 +3,6 @@ def filter_by_currency(transactions_list, currency):
     где валюта операции соответствует заданной."""
 
     def is_currency_match(item):
-        # Безопасно получаем доступ к данным
         operation_amount = item.get("operationAmount")
         if not isinstance(operation_amount, dict):
             return False
@@ -12,7 +11,9 @@ def filter_by_currency(transactions_list, currency):
             return False
         return currency_data.get("code") == currency
 
-    return list(filter(is_currency_match, transactions_list))
+    for transaction in transactions_list:
+        if is_currency_match(transaction):
+            yield transaction
 
 
 def transaction_descriptions(transactions_list):
