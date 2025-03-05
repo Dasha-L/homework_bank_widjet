@@ -127,5 +127,13 @@ def test_card_number_generator(start, stop, expected, test_description):
     - обработку крайних значений диапазона;
     - корректное завершение генерации.
     """
-    result = card_number_generator(start, stop)
-    assert result == expected, f"Ошибка в тесте: {test_description}"
+    generator = card_number_generator(start, stop)
+    if not expected:
+        with pytest.raises(StopIteration):
+            next(generator)
+    else:
+        for expected_card in expected:
+            assert next(generator) == expected_card, f"Ошибка в тесте: {test_description}"
+
+        with pytest.raises(StopIteration):
+            next(generator)

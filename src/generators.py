@@ -23,13 +23,11 @@ def transaction_descriptions(transactions_list):
 
 
 def card_number_generator(start, stop):
-    """Выдает номера банковских карт в формате XXXX XXXX XXXX XXXX, где X — цифра номера карты."""
-    cards_numbers = []
+    """Генерирует номера банковских карт в формате XXXX XXXX XXXX XXXX, где X — цифра номера карты."""
     for number in range(start, stop + 1):
         if 0 <= number <= 9999999999999999:
             card_number_str = f"{number:016}"
             formatted_card = (
                 f"{card_number_str[:4]} {card_number_str[4:8]} {card_number_str[8:12]} {card_number_str[12:]}"
             )
-            cards_numbers.append(formatted_card)
-    return cards_numbers
+            yield formatted_card
