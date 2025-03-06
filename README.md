@@ -115,8 +115,58 @@ project/
 │   ├── masks.py          # Функции для маскировки номеров карт и счетов
 │   ├── widget.py         # Функции для работы с данными карт, счетов и дат
 │   ├── processing.py     # Функции для фильтрации и сортировки транзакций
+│   ├── generators.py     # Функции для работы с транзакциями и генерации номеров карт
+├── tests/
+│   ├── test_masks.py     # Тесты для функций маскировки
+│   ├── test_widget.py    # Тесты для функций работы с данными карт, счетов и дат
+│   ├── test_processing.py # Тесты для функций фильтрации и сортировки транзакций
+│   ├── test_generators.py # Тесты для функций модуля generators
 ├── README.md             # Документация проекта
 ```
+
+---
+
+## Модуль generators
+
+Модуль `generators` содержит функции для работы с банковскими транзакциями и генерации номеров банковских карт.
+
+### Функции модуля
+
+1. **`filter_by_currency(transactions_list: list, currency: str) -> list`**  
+   Фильтрует список транзакций по заданной валюте.  
+   Пример:  
+   ```python
+   transactions = [
+       {"operationAmount": {"currency": {"code": "USD"}}},
+       {"operationAmount": {"currency": {"code": "EUR"}}},
+       {"operationAmount": {"currency": {"code": "USD"}}}
+   ]
+   filtered = filter_by_currency(transactions, "USD")
+   print(filtered)  # Вывод: [{'operationAmount': {'currency': {'code': 'USD'}}}, {'operationAmount': {'currency': {'code': 'USD'}}}]
+   ```
+
+2. **`transaction_descriptions(transactions_list: list) -> Generator[str, None, None]`**  
+   Генерирует описания транзакций по очереди.  
+   Пример:  
+   ```python
+   transactions = [
+       {"description": "Payment"},
+       {"description": "Withdrawal"}
+   ]
+   for desc in transaction_descriptions(transactions):
+       print(desc)  # Вывод: Payment, Withdrawal
+   ```
+
+3. **`card_number_generator(start: int, stop: int) -> list[str]`**  
+   Генерирует номера банковских карт в формате `XXXX XXXX XXXX XXXX`.  
+   Пример:  
+   ```python
+   cards = card_number_generator(1000, 1005)
+   print(cards)  # Вывод: ['0000 0000 0000 1000', '0000 0000 0000 1001', ..., '0000 0000 0000 1005']
+   ```
+
+---
+
 ## Тестирование
 
 ### Модуль masks.py
@@ -155,6 +205,22 @@ project/
   - Проверка корректности сортировки при одинаковых датах.
   - Тесты на работу функции с некорректными или нестандартными форматами дат.
 
+### Модуль generators.py
+
+#### Функция filter_by_currency
+- Проверяют корректность фильтрации транзакций по валюте.
+- Обрабатывают случаи, когда транзакции в заданной валюте отсутствуют.
+- Проверяют обработку пустого списка или списка без соответствующих валютных операций.
+
+#### Функция transaction_descriptions
+- Проверяют корректность генерации описаний транзакций.
+- Обрабатывают случаи с различным количеством транзакций, включая пустой список.
+
+#### Функция card_number_generator
+- Проверяют корректность генерации номеров карт в заданном диапазоне.
+- Проверяют правильность форматирования номеров карт.
+- Обрабатывают крайние значения диапазона и некорректные входные данные.
+
 ---
 
 ## Лицензия
@@ -165,5 +231,5 @@ project/
 
 ## Автор
 
-Dasha-L
-dl274274@hotmail.com 
+- **Имя:** Dasha-L  
+- **Email:** dl274274@hotmail.com
